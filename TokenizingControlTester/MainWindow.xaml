@@ -55,16 +55,18 @@
 
         </Grid>
         <StackPanel>
-            <local:TokenizingControl x:Name="Tokenizer" VerticalAlignment="Top" Margin="5,11,5,0" TokenTemplate="{DynamicResource NameTokenTemplate}" FontSize="16" MinHeight="40" VerticalScrollBarVisibility="Auto">
+            <local:TokenizingControl x:Name="Tokenizer" TextChanged="Tokenizer_TextChanged" VerticalAlignment="Top" Margin="5,11,5,0" TokenTemplate="{DynamicResource NameTokenTemplate}" FontSize="16" MinHeight="40" VerticalScrollBarVisibility="Auto">
                 <FlowDocument>
                     <Paragraph>
                         <Run />
                     </Paragraph>
                 </FlowDocument>
             </local:TokenizingControl>
-            <Button x:Name="extractTokens" Content="Extract tokens" Click="extractTokens_Click"/>
-            <TextBlock x:Name="extractedTokens" Background="Black" Foreground="White" FontSize="18"/>
-            <Button x:Name="addSpecialToken" Content="Add special token" Click="addSpecialToken_Click"/>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="extractTokens" Content="Extract tokens" Click="extractTokens_Click"/>
+                <Button x:Name="addSpecialToken" Content="Add special token" Click="addSpecialToken_Click"/>
+            </StackPanel>
+            <TextBlock x:Name="extractedTokens" Background="White" Foreground="Black" FontSize="18" Margin="0,10,0,0"/>
         </StackPanel>
     </DockPanel>
 </Window>

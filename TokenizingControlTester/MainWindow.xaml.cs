@@ -33,7 +33,7 @@ namespace TokenizingControlTester
                                              if (text.EndsWith(";"))
                                              {
                                                  // Remove the ';'
-                                                 return text.Substring(0, text.Length - 1).Trim().ToUpper();
+                                                 return text.Substring(0, text.Length - 1).Trim();
                                              }
 
                                              return null;
@@ -42,10 +42,10 @@ namespace TokenizingControlTester
 
         private void extractTokens_Click(object sender, RoutedEventArgs e)
         {
-            extractedTokens.Text = "";
+            extractedTokens.Text = "Tags are: ";
             foreach (TextBlock tb in FindVisualChildren<TextBlock>(Tokenizer))
             {
-                extractedTokens.Text += tb.Text + ";" ;
+                extractedTokens.Text += tb.Text + "; " ;
             }
 
         }
@@ -73,7 +73,50 @@ namespace TokenizingControlTester
 
         private void addSpecialToken_Click(object sender, RoutedEventArgs e)
         {
-
+            string text = "special;";
+            Tokenizer.CaretPosition.InsertTextInRun(text);
+            if (Tokenizer.TokenMatcher != null)
+            {
+                var token = Tokenizer.TokenMatcher(text);
+                if (token != null)
+                {
+                    Tokenizer.ReplaceTextWithToken(text, token);
+                }
+            }
         }
+
+        private void Tokenizer_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Tokenizer.UpdateLayout();
+            UpdateColors();
+        }
+
+        private void UpdateColors()
+        {
+            foreach (TextBlock tb in FindVisualChildren<TextBlock>(Tokenizer))
+            {
+                if (tb.Text.ToLower() == "special")
+                {
+                    Border g = FindParent<Border>(tb);
+                    g.Background = Brushes.LightBlue;
+                }            }
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            //get parent item
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            //we've reached the end of the tree
+            if (parentObject == null) return null;
+
+            //check if the parent matches the type we're looking for
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+            else
+                return FindParent<T>(parentObject);
+        }
+
     }
 }

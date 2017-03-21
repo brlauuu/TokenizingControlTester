@@ -37,7 +37,7 @@ namespace TokenizingControlTester
             }
         }
 
-        private void ReplaceTextWithToken(string inputText, object token)
+        public void ReplaceTextWithToken(string inputText, object token)
         {
             // Remove the handler temporarily as we will be modifying tokens below, causing more TextChanged events
             TextChanged -= OnTokenTextChanged;
